@@ -28,9 +28,16 @@ const analytics = getAnalytics(app);
 function App() {
   const [pageCount, setPageCount] = useState(0)
 
+  const [text, setText] = useState<string>("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+  };
+
 
   function LogButtonPress(givenString: string) {
-    logEvent(analytics, "page_view", { page_title: "buttonEvent" + givenString })
+    logEvent(analytics, "page_view", { page_title: + "testEvent-" + text + "-" + givenString })
+    console.log("WE SHOULD BE SEEING EVENT: " + "testEvent-" + text + "-" + givenString);
   }
 
   function NextPage() {
@@ -74,6 +81,14 @@ function App() {
       gap: "25px",
     }}>
       <h1 style={{ color: "lightgray" }}>Testing Event Funnels</h1>
+      <input
+        type="text"
+        value={text}
+        style={{ width: "85%" }}
+        onChange={handleInputChange}
+        placeholder="Enter your name or some text"
+        className="p-2 border rounded w-full"
+      />
       <Button
         onClick={() => { NextPage() }}
         style={{ backgroundColor: "lightgreen", color: "black", width: "85%" }}>Press to Start the Test</Button>
